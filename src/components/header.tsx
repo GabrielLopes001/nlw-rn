@@ -1,41 +1,32 @@
-import { Box, Text, ThemeProps } from "@/theme";
-import { Image, TouchableOpacity } from "react-native";
-import { Feather } from "@expo/vector-icons"
-import { useTheme } from "@shopify/restyle";
+import { Feather } from '@expo/vector-icons'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
+import colors from 'tailwindcss/colors'
 
 type HeaderProps = {
-   title: string;
-   cartQuantity?: number;
+  title: string
+  cartQuantity?: number
 }
 
-export function Header({title, cartQuantity = 0}: HeaderProps){
-   const { colors } = useTheme<ThemeProps>();
-   return (
-      <Box flexDirection="row" alignItems="center" borderBottomColor="slate_700" borderBottomWidth={1} pb="5" mx="5">
-         <Box flex={1}>
-            <Image src={require("@/assets/logo.png")} width={24} height={128}/>
+export function Header({ title, cartQuantity = 0 }: HeaderProps) {
+  return (
+    <View className="mx-5 flex-row items-center border-b border-slate-700 pb-5">
+      <View className="flex-1">
+        <Image source={require('@/assets/logo.png')} className="h-6 w-32" />
 
-            <Text variant="heading" color="white" fontSize={20} mt="2">{title}</Text>
-         </Box>
+        <Text className="font-heading mt-2 text-xl text-white">{title}</Text>
+      </View>
 
-         {
-            cartQuantity > 0 && (
-               <TouchableOpacity style={{position:"relative"}} activeOpacity={0.7}>
-                  <Box bg="lime_300" width={16} height={16} 
-                     borderRadius="full" 
-                     justifyContent="center" 
-                     alignItems="center" 
-                     top={8}
-                     zIndex={10}
-                     right={-14}
-                  >
-                     <Text variant="bold" fontSize={12} color="slate_900">{cartQuantity}</Text>
-                  </Box>
-      
-                  < Feather name="shopping-bag" color={colors.white} size={24}/>
-               </TouchableOpacity>
-            )
-         }
-      </Box>
-   )
+      {cartQuantity > 0 && (
+        <TouchableOpacity style={{ position: 'relative' }} activeOpacity={0.7}>
+          <View className="-right-3.5 top-2 z-10 h-4 w-4 items-center justify-center rounded-full bg-lime-300">
+            <Text className="text-xs font-bold text-slate-900">
+              {cartQuantity}
+            </Text>
+          </View>
+
+          <Feather name="shopping-bag" color={colors.white} size={24} />
+        </TouchableOpacity>
+      )}
+    </View>
+  )
 }

@@ -1,13 +1,10 @@
-import { ActivityIndicator } from "react-native";
-import { Box, ThemeProps } from "../theme";
-import { useTheme } from "@shopify/restyle";
+import { ActivityIndicator, View } from 'react-native'
+import colors from 'tailwindcss/colors'
 
-export function Loading(){
-   const { colors } = useTheme<ThemeProps>();
-
-   return (
-      <Box flex={1} justifyContent="center" alignItems="center" bg="slate_900">
-         <ActivityIndicator color={colors.white} />
-      </Box>
-   )
+export function Loading() {
+  return (
+    <View className="flex-1 items-center justify-center bg-slate-900">
+      <ActivityIndicator color={colors.white} />
+    </View>
+  )
 }
