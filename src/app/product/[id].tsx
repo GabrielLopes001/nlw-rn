@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons'
-import { useLocalSearchParams, useNavigation } from 'expo-router'
+import { Redirect, useLocalSearchParams, useNavigation } from 'expo-router'
 import { Image, Text, View } from 'react-native'
 
 import { ButtonIcon, ButtonRoot, ButtonText } from '@/components/button'
@@ -12,15 +12,19 @@ export default function Product() {
   const { id } = useLocalSearchParams()
   const cartStore = useCartStore()
   const navigation = useNavigation()
-  const product = PRODUCTS.filter((item) => item.id === id)[0]
-
-  const priceFormatted = FormatCurrency(product.price)
+  const product = PRODUCTS.find((item) => item.id === id)
 
   console.log(cartStore.products)
 
   function handleAddToCart() {
-    cartStore.add(product)
-    navigation.goBack()
+    if (product) {
+      cartStore.add(product)
+      navigation.goBack()
+    }
+  }
+
+  if (!product) {
+    return <Redirect href="/" />
   }
 
   return (
@@ -32,8 +36,9 @@ export default function Product() {
       />
 
       <View className="mt-8 flex-1 p-5">
+        <Text className="font-heading text-xl text-white">{product.title}</Text>
         <Text className="my-2 font-heading text-2xl text-lime-400">
-          {priceFormatted}
+          {FormatCurrency(product.price)}
         </Text>
 
         <Text className="mb-6 font-body text-base leading-6 text-slate-400">
